@@ -112,7 +112,8 @@ INSERT INTO Orders (orderDate, orderStatus, deliveryStatus, storeID, HQID, loadi
 ('2026-04-02', FALSE, 'IP', 2, 1, 2, 4),
 ('2026-04-03', TRUE, 'Complete', 3, 1, 3, 1),
 ('2026-04-04', FALSE, 'Unassigned', 4, 1, 4, 4),
-('2026-04-05', TRUE, 'Complete', 5, 1, 5, 4);
+('2026-04-05', TRUE, 'Complete', 5, 1, 5, 4),
+('2026-03-29', FALSE, 'Complete', 1, 1, 1, 1);
 
 INSERT INTO gasOrders (orderNo, galDiesel, galRegular, galPremium) VALUES
 (1, 500, 3000, 1000),
