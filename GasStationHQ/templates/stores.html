@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Stores</h1>
+
+<!-- Add Store -->
+<div class="section">
+    <h2>Add Store</h2>
+    <form action="/stores/add" method="POST">
+        <input type="number" name="storeID" placeholder="Store ID" required>
+        <input type="text" name="storeCity" placeholder="City" required>
+        <input type="number" name="staffID" placeholder="Manager Staff ID" required>
+        <input type="number" name="pumpNo" placeholder="Number of Pumps" required>
+        <button type="submit">Add Store</button>
+    </form>
+</div>
+
+<!-- Stores Table -->
+<div class="section">
+    <h2>All Stores</h2>
+    <table>
+        <tr>
+            <th>Store ID</th>
+            <th>City</th>
+            <th>Manager Staff ID</th>
+            <th>Pumps</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {% for store in stores %}
+        <tr>
+            <td>{{ store.storeID }}</td>
+            <td>{{ store.storeCity }}</td>
+            <td>{{ store.staffID }}</td>
+            <td>{{ store.pumpNo }}</td>
+            <td>
+                <form action="/stores/edit/{{ store.storeID }}" method="POST" style="display:inline">
+                    <input type="text" name="storeCity" value="{{ store.storeCity }}" required>
+                    <input type="number" name="staffID" value="{{ store.staffID }}" required>
+                    <input type="number" name="pumpNo" value="{{ store.pumpNo }}" required>
+                    <button type="submit">Save</button>
+                </form>
+            </td>
+            <td>
+                <a href="/stores/delete/{{ store.storeID }}">
+                    <button class="delete-btn">Delete</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

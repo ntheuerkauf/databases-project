@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Query Showcase</h1>
+
+<!-- Query 1 -->
+<div class="section">
+    <h2>Query 1: Store Orders and Delivery Status</h2>
+    <p>Displays each order linked to the store that placed it along with the current delivery status.</p>
+    <table>
+        <tr>
+            <th>Order No</th>
+            <th>Order Date</th>
+            <th>Store ID</th>
+            <th>Store City</th>
+            <th>Delivery Status</th>
+        </tr>
+        {% for row in q1 %}
+        <tr>
+            <td>{{ row.orderNo }}</td>
+            <td>{{ row.orderDate }}</td>
+            <td>{{ row.storeID }}</td>
+            <td>{{ row.storeCity }}</td>
+            <td>{{ row.deliveryStatus }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- Query 2 -->
+<div class="section">
+    <h2>Query 2: Total Gallons Ordered by Fuel Type</h2>
+    <p>Aggregates the total gallons of diesel, regular, and premium fuel ordered across all gas orders.</p>
+    <table>
+        <tr>
+            <th>Total Diesel</th>
+            <th>Total Regular</th>
+            <th>Total Premium</th>
+        </tr>
+        {% for row in q2 %}
+        <tr>
+            <td>{{ row.totalDiesel }}</td>
+            <td>{{ row.totalRegular }}</td>
+            <td>{{ row.totalPremium }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- Query 3 -->
+<div class="section">
+    <h2>Query 3: Staff Order Updates</h2>
+    <p>Shows which staff members have updated orders and what the current status of those orders are.</p>
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Role</th>
+            <th>Order No</th>
+            <th>Order Status</th>
+            <th>Delivery Status</th>
+        </tr>
+        {% for row in q3 %}
+        <tr>
+            <td>{{ row.staffFirstName }}</td>
+            <td>{{ row.staffLastName }}</td>
+            <td>{{ row.staffRole }}</td>
+            <td>{{ row.orderNo }}</td>
+            <td>{{ "Complete" if row.orderStatus else "Pending" }}</td>
+            <td>{{ row.deliveryStatus }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- Query 4 -->
+<div class="section">
+    <h2>Query 4: Stores With More Than One Order</h2>
+    <p>Uses aggregation and a subquery to identify stores that have placed more than one order.</p>
+    {% if q4 %}
+    <table>
+        <tr>
+            <th>Store ID</th>
+            <th>Store City</th>
+        </tr>
+        {% for row in q4 %}
+        <tr>
+            <td>{{ row.storeID }}</td>
+            <td>{{ row.storeCity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p><em>No stores have placed more than one order yet.</em></p>
+    {% endif %}
+</div>
+
+<!-- Query 5 -->
+<div class="section">
+    <h2>Query 5: Orders With Assigned Truck and Destination (View)</h2>
+    <p>Uses the OrderTruckStore view to display each order alongside its assigned truck type and destination city.</p>
+    <table>
+        <tr>
+            <th>Order No</th>
+            <th>Order Date</th>
+            <th>Delivery Status</th>
+            <th>Truck Type</th>
+            <th>Store City</th>
+        </tr>
+        {% for row in q5 %}
+        <tr>
+            <td>{{ row.orderNo }}</td>
+            <td>{{ row.orderDate }}</td>
+            <td>{{ row.deliveryStatus }}</td>
+            <td>{{ row.truckType }}</td>
+            <td>{{ row.storeCity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- Query 6 -->
+<div class="section">
+    <h2>Query 6: Average Backstock Order Quantities</h2>
+    <p>Aggregates the average number of hotdogs and cigarettes ordered per backstock order.</p>
+    <table>
+        <tr>
+            <th>Avg Hotdogs</th>
+            <th>Avg Cigarettes</th>
+        </tr>
+        {% for row in q6 %}
+        <tr>
+            <td>{{ row.avgHotdogs }}</td>
+            <td>{{ row.avgCigarettes }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- Query 7 -->
+<div class="section">
+    <h2>Query 7: Trucks With Active Deliveries</h2>
+    <p>Shows trucks that are currently unavailable and have an order actively in progress.</p>
+    {% if q7 %}
+    <table>
+        <tr>
+            <th>Vehicle ID</th>
+            <th>Truck Type</th>
+            <th>Order No</th>
+            <th>Delivery Status</th>
+            <th>Order Date</th>
+        </tr>
+        {% for row in q7 %}
+        <tr>
+            <td>{{ row.vehicleID }}</td>
+            <td>{{ row.truckType }}</td>
+            <td>{{ row.orderNo }}</td>
+            <td>{{ row.deliveryStatus }}</td>
+            <td>{{ row.orderDate }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p><em>No active deliveries at this time.</em></p>
+    {% endif %}
+</div>
+
+<!-- Query 8 -->
+<div class="section">
+    <h2>Query 8: Stores With Only Gas Orders</h2>
+    <p>Uses subqueries to find stores that have placed gas orders but have never placed a backstock order.</p>
+    {% if q8 %}
+    <table>
+        <tr>
+            <th>Store ID</th>
+            <th>Store City</th>
+        </tr>
+        {% for row in q8 %}
+        <tr>
+            <td>{{ row.storeID }}</td>
+            <td>{{ row.storeCity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p><em>No stores found with only gas orders.</em></p>
+    {% endif %}
+</div>
+
+{% endblock %}

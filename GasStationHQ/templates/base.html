@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasStation HQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        nav {
+            background-color: #222;
+            padding: 10px 20px;
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        nav a:hover {
+            color: #f0a500;
+        }
+        .container {
+            padding: 30px;
+        }
+        h1, h2 {
+            color: #222;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #222;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        input, select {
+            padding: 6px;
+            margin: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 6px 12px;
+            background-color: #f0a500;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #c98a00;
+        }
+        .delete-btn {
+            background-color: #cc0000;
+        }
+        .delete-btn:hover {
+            background-color: #990000;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/stores">Stores</a>
+        <a href="/orders">Orders</a>
+        <a href="/fleet">Fleet</a>
+        <a href="/staff">Staff</a>
+        <a href="/queries">Queries</a>
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
