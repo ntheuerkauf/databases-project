@@ -1,77 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Orders</h1>
+<h1>Stores</h1>
 
-<!-- Add Order -->
+<!-- Add Store -->
 <div class="section">
-    <h2>Add Order</h2>
-    <form action="/orders/add" method="POST">
-        <input type="date" name="orderDate" required>
+    <h2>Add Store</h2>
+    <form action="/stores/add" method="POST">
         <input type="number" name="storeID" placeholder="Store ID" required>
-        <input type="number" name="loadingBayNo" placeholder="Loading Bay No (1-5)" min="1" max="5" required>
-        <input type="number" name="managerID" placeholder="Manager Staff ID" required>
-	<input type="number" name="galRegular" placeholder="Regular Gallons" min="0" max="15000" required>
-	<input type="number" name="galPremium" placeholder="Premium Gallons" min="0" max="5000" required>
-	<input type="number" name="galDiesel" placeholder="Diesel Gallons" min="0" max="80000" required>
-	<input type="number" name="hotdogs" placeholder="Hotdogs" min="0" max="10000" required>
-    	<input type="number" name="cigarettes" placeholder="Cigarettes" min="0" max="10000" required>
-        <button type="submit">Add Order</button>
+        <input type="text" name="storeCity" placeholder="City" required>
+        <input type="number" name="staffID" placeholder="Manager Staff ID" required>
+        <input type="number" name="pumpNo" placeholder="Number of Pumps" required>
+        <button type="submit">Add Store</button>
     </form>
 </div>
 
-<!-- Orders Table -->
+<!-- Stores Table -->
 <div class="section">
-    <h2>All Orders</h2>
+    <h2>All Stores</h2>
     <table>
         <tr>
-            <th>Order No</th>
-            <th>Date</th>
             <th>Store ID</th>
-            <th>Loading Bay</th>
-            <th>Diesel</th>
-            <th>Regular</th>
-            <th>Premium</th>
-            <th>Hotdogs</th>
-            <th>Cigarettes</th>
-            <th>Order Status</th>
-            <th>Delivery Status</th>
-            <th>Edit Status</th>
-            <th>Delete</th>
+            <th>City</th>
+            <th>Manager Staff ID</th>
+            <th>Pumps</th>
+            <th>Edit</th>
         </tr>
-
-        {% for order in orders %}
+        {% for store in stores %}
         <tr>
-            <td>{{ order.orderNo }}</td>
-            <td>{{ order.orderDate }}</td>
-            <td>{{ order.storeID }}</td>
-            <td>{{ order.loadingBayNo }}</td>
-
-            <td>{{ order.galDiesel if order.galDiesel is not none else "-" }}</td>
-            <td>{{ order.galRegular if order.galRegular is not none else "-" }}</td>
-            <td>{{ order.galPremium if order.galPremium is not none else "-" }}</td>
-            <td>{{ order.hotdogs if order.hotdogs is not none else "-" }}</td>
-            <td>{{ order.cigarettes if order.cigarettes is not none else "-" }}</td>
-
-            <td>{{ "Complete" if order.orderStatus else "Pending" }}</td>
-            <td>{{ order.deliveryStatus }}</td>
-
+            <td>{{ store.storeID }}</td>
+            <td>{{ store.storeCity }}</td>
+            <td>{{ store.staffID }}</td>
+            <td>{{ store.pumpNo }}</td>
             <td>
-                <form action="/orders/edit/{{ order.orderNo }}" method="POST" style="display:inline">
-                    <select name="deliveryStatus">
-                        <option value="Unassigned" {% if order.deliveryStatus == 'Unassigned' %}selected{% endif %}>Unassigned</option>
-                        <option value="IP" {% if order.deliveryStatus == 'IP' %}selected{% endif %}>In Progress</option>
-                        <option value="Complete" {% if order.deliveryStatus == 'Complete' %}selected{% endif %}>Complete</option>
-                    </select>
+                <form action="/stores/edit/{{ store.storeID }}" method="POST" style="display:inline">
+                    <input type="text" name="storeCity" value="{{ store.storeCity }}" required>
+                    <input type="number" name="staffID" value="{{ store.staffID }}" required>
+                    <input type="number" name="pumpNo" value="{{ store.pumpNo }}" required>
                     <button type="submit">Save</button>
                 </form>
             </td>
-
-            <td>
-                <a href="/orders/delete/{{ order.orderNo }}">
-                    <button class="delete-btn">Delete</button>
-                </a>
-            </td>
-        </tr>
+         </tr>
         {% endfor %}
     </table>
 </div>

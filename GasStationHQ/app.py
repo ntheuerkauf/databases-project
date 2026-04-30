@@ -42,7 +42,7 @@ def edit_store(storeID):
     cursor.close()
     conn.close()
     return redirect(url_for('stores'))
-
+'''
 @app.route('/stores/delete/<int:storeID>')
 def delete_store(storeID):
     conn = get_connection()
@@ -52,7 +52,7 @@ def delete_store(storeID):
     cursor.close()
     conn.close()
     return redirect(url_for('stores'))
-
+'''
 # =====================
 # ORDERS
 # =====================
@@ -60,33 +60,76 @@ def delete_store(storeID):
 def orders():
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM Orders")
+    cursor.execute("""
+    SELECT 
+        o.orderNo, o.orderDate, o.storeID, o.loadingBayNo, o.orderStatus,
+        o.deliveryStatus, g.galDiesel, g.galRegular, g.galPremium,
+        b.hotdogs, b.cigarettes
+    FROM Orders o
+    LEFT JOIN gasOrders g ON o.orderNo = g.orderNo
+    LEFT JOIN backstockOrders b ON o.orderNo = b.orderNo
+""")
     orders = cursor.fetchall()
     cursor.close()
     conn.close()
     return render_template('orders.html', orders=orders)
 
 @app.route('/orders/add', methods=['POST'])
+@app.route('/orders/add', methods=['POST'])
 def add_order():
     conn = get_connection()
     cursor = conn.cursor()
+    # Insert into Orders table first
     cursor.execute("""
-        INSERT INTO Orders (orderDate, orderStatus, deliveryStatus, storeID, HQID, loadingBayNo, managerID)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)""",
-        (request.form['orderDate'], False, 'Unassigned',
-         request.form['storeID'], 1, request.form['loadingBayNo'], request.form['managerID']))
+        INSERT INTO Orders 
+        (orderDate, orderStatus, deliveryStatus, storeID, HQID, loadingBayNo, managerID)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+    """,
+    (
+        request.form['orderDate'],
+        False,
+        'Unassigned',
+        request.form['storeID'],
+        1,
+        request.form['loadingBayNo'],
+        request.form['managerID']
+    ))
+    orderNo = cursor.lastrowid
+    # Insert in gasOrders
+    cursor.execute("""
+        INSERT INTO gasOrders 
+        (orderNo, galDiesel, galRegular, galPremium)
+        VALUES (%s, %s, %s, %s)
+    """,
+    (
+        orderNo,
+        0,
+        request.form['galRegular'],
+        request.form['galPremium']
+    ))
+    # Insert into backstockOrders using the same orderNo
+    cursor.execute("""
+        INSERT INTO backstockOrders 
+        (orderNo, hotdogs, cigarettes)
+        VALUES (%s, %s, %s)
+    """,
+    (
+        orderNo,
+        request.form['hotdogs'],
+        request.form['cigarettes']
+    ))
     conn.commit()
     cursor.close()
     conn.close()
+
     return redirect(url_for('orders'))
 
 @app.route('/orders/edit/<int:orderNo>', methods=['POST'])
 def edit_order(orderNo):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        UPDATE Orders SET deliveryStatus=%s WHERE orderNo=%s""",
-        (request.form['deliveryStatus'], orderNo))
+    cursor.execute("DELETE FROM gasOrders WHERE orderNo=%s", (orderNo,))
+    cursor.execute("DELETE FROM backstockOrders WHERE orderNo=%s", (orderNo,))
     conn.commit()
     cursor.close()
     conn.close()
@@ -96,6 +139,11 @@ def edit_order(orderNo):
 def delete_order(orderNo):
     conn = get_connection()
     cursor = conn.cursor()
+    # Delete child records first
+    cursor.execute("DELETE FROM Deliveries WHERE orderNo=%s", (orderNo,))
+    cursor.execute("DELETE FROM staffUpdatesOrder WHERE orderNo=%s", (orderNo,))
+    cursor.execute("DELETE FROM gasOrders WHERE orderNo=%s", (orderNo,))
+    cursor.execute("DELETE FROM backstockOrders WHERE orderNo=%s", (orderNo,))
     cursor.execute("DELETE FROM Orders WHERE orderNo=%s", (orderNo,))
     conn.commit()
     cursor.close()
@@ -181,7 +229,7 @@ def edit_staff(staffID):
     cursor.close()
     conn.close()
     return redirect(url_for('staff'))
-
+'''
 @app.route('/staff/delete/<int:staffID>')
 def delete_staff(staffID):
     conn = get_connection()
@@ -191,7 +239,7 @@ def delete_staff(staffID):
     cursor.close()
     conn.close()
     return redirect(url_for('staff'))
-
+'''
 # =====================
 # QUERIES
 # =====================
