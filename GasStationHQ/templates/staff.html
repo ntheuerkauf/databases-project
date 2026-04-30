@@ -28,7 +28,7 @@
             <th>Last Name</th>
             <th>Role</th>
             <th>Edit</th>
-            <th>Delete</th>
+            
         </tr>
         {% for member in staff %}
         <tr>
@@ -45,11 +45,6 @@
                     </select>
                     <button type="submit">Save</button>
                 </form>
-            </td>
-            <td>
-                <a href="/staff/delete/{{ member.staffID }}">
-                    <button class="delete-btn">Delete</button>
-                </a>
             </td>
         </tr>
         {% endfor %}
