@@ -92,7 +92,7 @@ INSERT INTO HQ (HQID, loadingBayNo, deliveryStatus) VALUES
 (1, 3, TRUE),
 (1, 4, FALSE),
 (1, 5, TRUE),
-(1, 2, False):
+(1, 2, False);
 
 INSERT INTO Staff (staffID, staffFirstName, staffLastName, staffRole) VALUES
 (1, 'Alice', 'Johnson', 'Manager'),
