@@ -5,7 +5,7 @@ USE GasStationHQ;
 CREATE TABLE HQ (
     HQID INT NOT NULL,
     loadingBayNo INT NOT NULL CHECK (10 >= loadingBayNo AND loadingBayNo > 0),
-    deliveryStatus BOOLEAN,
+    deliveryStatus VARCHAR(50),
     PRIMARY KEY (HQID, loadingBayNo)
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE Store (
 CREATE TABLE Orders (
     orderNo INT PRIMARY KEY AUTO_INCREMENT,
     orderDate DATE NOT NULL,
-    orderStatus BOOLEAN NOT NULL,
+    orderStatus VARCHAR(50) NOT NULL,
     deliveryStatus VARCHAR(50) NOT NULL CHECK (deliveryStatus IN ('Unassigned', 'IP', 'Complete')),
     storeID INT,
     HQID INT,
@@ -287,13 +287,16 @@ DELIMITER ;
 
 -- Trigger 2: When a truck is assigned to a delivery, the truck's "available" value is set to FALSE
 DELIMITER //
-CREATE TRIGGER truckUnavailableOnDelivery
-AFTER INSERT ON Deliveries
+CREATE TRIGGER truckUnavailableWhenOrderIP
+AFTER UPDATE ON Orders
 FOR EACH ROW
 BEGIN
-    UPDATE Fleet
-    SET available = FALSE
-    WHERE vehicleID = NEW.vehicleID;
+    IF NEW.deliveryStatus = 'IP' AND OLD.deliveryStatus <> 'IP' THEN
+        UPDATE Fleet
+        SET available = FALSE
+        WHERE HQID = NEW.HQID
+          AND loadingBayNo = NEW.loadingBayNo;
+    END IF;
 END //
 DELIMITER ;
 
