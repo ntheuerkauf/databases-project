@@ -108,12 +108,12 @@ INSERT INTO Store (storeID, storeCity, staffID, pumpNo) VALUES
 (5, 'Fort Dodge', 4, 4);
 
 INSERT INTO Orders (orderDate, orderStatus, deliveryStatus, storeID, HQID, loadingBayNo, managerID) VALUES
-('2026-04-01', FALSE, 'Unassigned', 1, 1, 1, 1),
+('2026-04-01', FALSE, 'IP', 1, 1, 1, 1),
 ('2026-04-02', FALSE, 'IP', 2, 1, 2, 4),
-('2026-04-03', TRUE, 'Complete', 3, 1, 3, 1),
-('2026-04-04', FALSE, 'Unassigned', 4, 1, 4, 4),
+('2026-04-03', FALSE, 'Unassigned', 3, 1, 3, 1),
+('2026-04-04', TRUE, 'Complete', 4, 1, 4, 4),
 ('2026-04-05', TRUE, 'Complete', 5, 1, 5, 4),
-('2026-03-29', TRUE, 'Complete', 1, 1, 1, 1);
+('2026-05-01', FALSE, 'IP', 2, 1, 2, 2);
 
 INSERT INTO gasOrders (orderNo, galDiesel, galRegular, galPremium) VALUES
 (1, 500, 3000, 1000),
@@ -122,14 +122,15 @@ INSERT INTO gasOrders (orderNo, galDiesel, galRegular, galPremium) VALUES
 
 INSERT INTO backstockOrders (orderNo, hotdogs, cigarettes) VALUES
 (2, 300, 150),
-(4, 500, 200);
+(4, 500, 200),
+(8, 200, 600);
 
 INSERT INTO Fleet (truckType, available, HQID, loadingBayNo) VALUES
-('Gas', TRUE, 1, 1),
+('Gas', FALSE, 1, 1),
 ('Freight', FALSE, 1, 2),
 ('Gas', TRUE, 1, 3),
 ('Freight', TRUE, 1, 4),
-('Gas', FALSE, 1, 5);
+('Gas', TRUE, 1, 5);
 
 INSERT INTO Deliveries (vehicleID, orderNo, storeID) VALUES
 (1, 1, 1),
