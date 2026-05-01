@@ -91,7 +91,8 @@ INSERT INTO HQ (HQID, loadingBayNo, deliveryStatus) VALUES
 (1, 2, FALSE),
 (1, 3, TRUE),
 (1, 4, FALSE),
-(1, 5, TRUE);
+(1, 5, TRUE),
+(1, 2, False):
 
 INSERT INTO Staff (staffID, staffFirstName, staffLastName, staffRole) VALUES
 (1, 'Alice', 'Johnson', 'Manager'),
@@ -109,7 +110,6 @@ INSERT INTO Store (storeID, storeCity, staffID, pumpNo) VALUES
 
 INSERT INTO Orders (orderDate, orderStatus, deliveryStatus, storeID, HQID, loadingBayNo, managerID) VALUES
 ('2026-04-01', FALSE, 'IP', 1, 1, 1, 1),
-('2026-04-02', FALSE, 'IP', 2, 1, 2, 4),
 ('2026-04-03', FALSE, 'Unassigned', 3, 1, 3, 1),
 ('2026-04-04', TRUE, 'Complete', 4, 1, 4, 4),
 ('2026-04-05', TRUE, 'Complete', 5, 1, 5, 4),
@@ -121,7 +121,6 @@ INSERT INTO gasOrders (orderNo, galDiesel, galRegular, galPremium) VALUES
 (5, 0, 5000, 2000);
 
 INSERT INTO backstockOrders (orderNo, hotdogs, cigarettes) VALUES
-(2, 300, 150),
 (4, 500, 200),
 (8, 200, 600);
 
@@ -142,7 +141,7 @@ INSERT INTO Deliveries (vehicleID, orderNo, storeID) VALUES
 
 INSERT INTO staffUpdatesOrder (orderNo, staffID, orderStatus, deliveryStatus) VALUES
 (1, 2, FALSE, 'Unassigned'),
-(2, 3, FALSE, 'IP'),
+(8, 3, FALSE, 'IP'),
 (3, 2, TRUE, 'Complete'),
 (4, 3, FALSE, 'Unassigned'),
 (5, 2, TRUE, 'Complete');
