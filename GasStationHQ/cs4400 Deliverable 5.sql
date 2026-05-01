@@ -91,8 +91,7 @@ INSERT INTO HQ (HQID, loadingBayNo, deliveryStatus) VALUES
 (1, 2, FALSE),
 (1, 3, TRUE),
 (1, 4, FALSE),
-(1, 5, TRUE),
-(1, 2, False);
+(1, 5, TRUE);
 
 INSERT INTO Staff (staffID, staffFirstName, staffLastName, staffRole) VALUES
 (1, 'Alice', 'Johnson', 'Manager'),
@@ -121,8 +120,8 @@ INSERT INTO gasOrders (orderNo, galDiesel, galRegular, galPremium) VALUES
 (5, 0, 5000, 2000);
 
 INSERT INTO backstockOrders (orderNo, hotdogs, cigarettes) VALUES
-(4, 500, 200),
-(8, 200, 600);
+(2, 500, 200),
+(4, 200, 600);
 
 INSERT INTO Fleet (truckType, available, HQID, loadingBayNo) VALUES
 ('Gas', FALSE, 1, 1),
@@ -136,12 +135,11 @@ INSERT INTO Deliveries (vehicleID, orderNo, storeID) VALUES
 (2, 2, 2),
 (3, 3, 3),
 (4, 4, 4),
-(5, 5, 5),
-(2, 8, 2);
+(5, 5, 5);
 
 INSERT INTO staffUpdatesOrder (orderNo, staffID, orderStatus, deliveryStatus) VALUES
 (1, 2, FALSE, 'IP'),
-(8, 3, FALSE, 'Unassigned'),
+(2, 3, FALSE, 'Unassigned'),
 (3, 2, TRUE, 'Complete'),
 (4, 3, FALSE, 'Unassigned'),
 (5, 2, TRUE, 'Complete');
