@@ -125,14 +125,25 @@ def add_order():
     return redirect(url_for('orders'))
 
 @app.route('/orders/edit/<int:orderNo>', methods=['POST'])
+@app.route('/orders/edit/<int:orderNo>', methods=['POST'])
 def edit_order(orderNo):
+    delivery_status = request.form['deliveryStatus']
+    order_status = True if delivery_status == 'Complete' else False
+
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM gasOrders WHERE orderNo=%s", (orderNo,))
-    cursor.execute("DELETE FROM backstockOrders WHERE orderNo=%s", (orderNo,))
+
+    cursor.execute("""
+        UPDATE Orders
+        SET deliveryStatus = %s,
+            orderStatus = %s
+        WHERE orderNo = %s
+    """, (delivery_status, order_status, orderNo))
+
     conn.commit()
     cursor.close()
     conn.close()
+
     return redirect(url_for('orders'))
 
 @app.route('/orders/delete/<int:orderNo>')
