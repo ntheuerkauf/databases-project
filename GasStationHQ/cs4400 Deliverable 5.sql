@@ -113,7 +113,7 @@ INSERT INTO Orders (orderDate, orderStatus, deliveryStatus, storeID, HQID, loadi
 ('2026-04-03', FALSE, 'Unassigned', 3, 1, 3, 1),
 ('2026-04-04', TRUE, 'Complete', 4, 1, 4, 4),
 ('2026-04-05', TRUE, 'Complete', 5, 1, 5, 4),
-('2026-05-01', FALSE, 'IP', 2, 1, 2, 2);
+('2026-05-01', FALSE, 'Unassigned', 2, 1, 2, 2);
 
 INSERT INTO gasOrders (orderNo, galDiesel, galRegular, galPremium) VALUES
 (1, 500, 3000, 1000),
@@ -140,8 +140,8 @@ INSERT INTO Deliveries (vehicleID, orderNo, storeID) VALUES
 (2, 8, 2);
 
 INSERT INTO staffUpdatesOrder (orderNo, staffID, orderStatus, deliveryStatus) VALUES
-(1, 2, FALSE, 'Unassigned'),
-(8, 3, FALSE, 'IP'),
+(1, 2, FALSE, 'IP'),
+(8, 3, FALSE, 'Unassigned'),
 (3, 2, TRUE, 'Complete'),
 (4, 3, FALSE, 'Unassigned'),
 (5, 2, TRUE, 'Complete');
