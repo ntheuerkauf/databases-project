@@ -137,7 +137,8 @@ INSERT INTO Deliveries (vehicleID, orderNo, storeID) VALUES
 (2, 2, 2),
 (3, 3, 3),
 (4, 4, 4),
-(5, 5, 5);
+(5, 5, 5),
+(2, 8, 2);
 
 INSERT INTO staffUpdatesOrder (orderNo, staffID, orderStatus, deliveryStatus) VALUES
 (1, 2, FALSE, 'Unassigned'),
