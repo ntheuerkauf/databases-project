@@ -30,5 +30,11 @@ The following like will prompt you for a password, type in 'root' and then hit e
 
 The final line will startup the website, there should be a little pop up in the bottom right corner, click on the blue button to open it in a new tab:
 ```
-  python app.py  
+  python app.py
 ```
+
+If you make changes to the database on the website and want to see if they are reflected in the MySQL database, the first step is to go back to the terminal in the codepsace and hit CTRL + C to close the wbesite. Then, enter `sudo mysql -u root -e -p "YOUR SQL CODE HERE"`. You will then be prompted to enter the password, which is still root. This will cause SQL statments within the quotation markes to be executed. For example, wanted to see the store table you would enter:
+```
+  sudo mysql -u root -p -e " use GasStationHQ; select * from Store;"
+```
+If you open the website back up with `python app.py` you will see that any changes you have made are still present.
