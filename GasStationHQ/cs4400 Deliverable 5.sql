@@ -268,7 +268,9 @@ AND storeID NOT IN (
 
 -- Triggers
 
--- Trigger 1: When an order's deliveryStatus is updated to "Complete" it automatically sets orderStatus to TRUE
+
+-- Trigger 1: When an order's deliveryStatus is updated to 'Complete' or 'Unassigned',
+-- automatically set orderStatus to TRUE and set truck back to available
 DELIMITER //
 CREATE TRIGGER orderCompleteStatus
 BEFORE UPDATE ON Orders
@@ -276,15 +278,21 @@ FOR EACH ROW
 BEGIN
     IF NEW.deliveryStatus = 'Complete' THEN
         SET NEW.orderStatus = TRUE;
-        UPDATE Fleet f
-        JOIN Deliveries d ON f.vehicleID = d.vehicleID
-        SET f.available = TRUE
-        WHERE d.orderNo = NEW.orderNo;
+        UPDATE Fleet
+        SET available = TRUE
+        WHERE HQID = NEW.HQID
+          AND loadingBayNo = NEW.loadingBayNo;
+    ELSEIF NEW.deliveryStatus = 'Unassigned' THEN
+        UPDATE Fleet
+        SET available = TRUE
+        WHERE HQID = NEW.HQID
+          AND loadingBayNo = NEW.loadingBayNo;
     END IF;
 END //
 DELIMITER ;
 
--- Trigger 2: When a truck is assigned to a delivery, the truck's "available" value is set to FALSE
+-- Trigger 2: When an order's deliveryStatus is updated to 'IP',
+-- automatically set the assigned truck's available to FALSE
 DELIMITER //
 CREATE TRIGGER truckUnavailableWhenOrderIP
 AFTER UPDATE ON Orders
